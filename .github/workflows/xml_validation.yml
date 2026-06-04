@@ -10,11 +10,19 @@ jobs:
   validate-xml:
     runs-on: ubuntu-latest
     steps:
+    # Node 24 uyarısı almamak için en güncel checkout versiyonunu (v4) kullanıyoruz
     - name: Checkout code
       uses: actions/checkout@v4
 
+    # xmllint aracını kuruyoruz
+    - name: Install libxml2-utils
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libxml2-utils
+
+    # Klasörün yerini sağlama alıp testi çalıştırıyoruz
     - name: Check XML Syntax
       run: |
-        echo "XML dosyaları kontrol ediliyor..."
-        # custom_rules klasöründeki tüm xml dosyalarını bulur ve yapısal hata var mı bakar
-        find custom_rules/ -name "*.xml" -type f -exec xmllint --noout {} +
+        echo "XML dosyaları doğrulanıyor..."
+        cd $GITHUB_WORKSPACE
+        xmllint --noout custom_rules/*.xml
