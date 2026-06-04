@@ -1,0 +1,20 @@
+name: XML Validation
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  validate-xml:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Check XML Syntax
+      run: |
+        echo "XML dosyaları kontrol ediliyor..."
+        # custom_rules klasöründeki tüm xml dosyalarını bulur ve yapısal hata var mı bakar
+        find custom_rules/ -name "*.xml" -type f -exec xmllint --noout {} +
