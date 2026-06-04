@@ -13,7 +13,6 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    # Python kullanarak XML yapısını %100 kusursuz kontrol eden alternatif yöntem
     - name: Verify XML Syntax with Python
       run: |
         python3 -c "
@@ -21,8 +20,11 @@ jobs:
         import sys
         try:
             ET.parse('custom_rules/sshd_rules.xml')
-            print('XML yapısı geçerli ve hatasız!')
+            print('XML yapısı geçerli!')
         except Exception as e:
-            print(f'Hata buldu: {e}')
             sys.exit(1)
         "
+
+    # Yeni eklediğimiz kısım
+    - name: Run Duplicate ID Check Script
+      run: bash check_dupes.sh
